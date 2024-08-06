@@ -100,7 +100,7 @@ const StyledTaskItem = styled.div`
   }
 `;
 
-const TodoItem = () => {
+const TaskerItem = () => {
   return (
     <StyledTaskItem>
       <div className="task-item-checked">
@@ -117,4 +117,4 @@ const TodoItem = () => {
   );
 };
 
-export default TodoItem;
+export default TaskerItem;

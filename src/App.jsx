@@ -1,10 +1,10 @@
 import './App.scss';
-import { TodoPage, LoginPage, SignUpPage } from './pages';
+import { TaskerPage } from './pages';
 
 function App() {
   return (
     <div className="app">
-      <TodoPage />
+      <TaskerPage />
     </div>
   );
 }

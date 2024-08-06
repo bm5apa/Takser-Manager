@@ -1,4 +1,4 @@
-import { Footer, Header, TodoCollection, TodoInput } from 'components';
+import { TaskerCollection, TaskerInput } from 'components';
 
 const dummyTodos = [
   {
@@ -23,16 +23,14 @@ const dummyTodos = [
   },
 ];
 
-const TodoPage = () => {
+const TaskerPage = () => {
   return (
     <div>
-      TodoPage
-      <Header />
-      <TodoInput />
-      <TodoCollection />
-      <Footer />
+      Tasker Manager
+      <TaskerInput />
+      <TaskerCollection />
     </div>
   );
 };
 
-export default TodoPage;
+export default TaskerPage;
