@@ -15,7 +15,6 @@ const TaskerDetail = ({ taskId }) => {
     <div>
       <h2>{task.title}</h2>
       <p>Due Date: {task.dueDate}</p>
-      <p>Status: {task.isDone ? 'Completed' : 'Pending'}</p>
       <CommentManager taskId={taskId} />
     </div>
   );

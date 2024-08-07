@@ -10,7 +10,7 @@ const StyledAddTodoContainer = styled.div`
   word-wrap: break-word;
   word-break: break-word;
   padding: 0 12px;
-  box-shadow: 0 17px 0 -16px #e5e5e5;
+  box-shadow: 0 17px 0 -16px #cfece8;
   flex-wrap: wrap;
 
   &.active {
@@ -38,6 +38,7 @@ const StyledInputContainer = styled.div`
   user-select: none;
 
   input {
+    display: flex;
     flex: 1;
     padding: 8px 12px;
     border: 0;

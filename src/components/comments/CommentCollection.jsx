@@ -29,7 +29,6 @@ const CommentCollection = React.memo(({ taskId, onEditClick }) => {
           style={{ cursor: 'pointer' }}
         >
           <p>{comment.text}</p>
-          <small>{comment.date}</small>
           <button onClick={() => handleDeleteClick(comment.id)}>Delete</button>
         </div>
       ))}

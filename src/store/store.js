@@ -33,7 +33,7 @@ const useStore = create((set, get) => ({
       comments: [],
     },
     {
-      title: 'Learn about use',
+      title: 'Learn about useCallback',
       isDone: false,
       id: 4,
       dueDate: '2025-01-25',

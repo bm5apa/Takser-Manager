@@ -1,11 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import useStore from '../store/store';
-import {
-  CheckActiveIcon,
-  CheckCircleIcon,
-  CheckHoverIcon,
-} from 'assets/images';
 
 const StyledTaskItem = styled.div`
   min-height: 52px;
@@ -15,7 +10,7 @@ const StyledTaskItem = styled.div`
   word-wrap: break-word;
   word-break: break-word;
   padding: 0 12px;
-  box-shadow: 0 17px 0 -16px #e5e5e5;
+  box-shadow: 0 17px 0 -16px #cfece8;
   flex-wrap: wrap;
 
   .task-item-body-input {
@@ -34,8 +29,8 @@ const StyledTaskItem = styled.div`
   }
 
   &:hover {
-    background: #fff3eb;
-    box-shadow: inset 0 0 0 1px #fff3eb;
+    background: #cfece8;
+    box-shadow: inset 0 0 0 1px #cfece8;
 
     .task-item-action .btn-destroy {
       display: inline-flex;
@@ -48,8 +43,9 @@ const StyledTaskItem = styled.div`
       text-decoration: line-through;
     }
 
-    .icon-checked {
-      background-image: url(${CheckActiveIcon});
+    .task-item-checked .icon-checked::before {
+      content: '✔';
+      color: #09665a;
     }
   }
 
@@ -69,6 +65,21 @@ const StyledTaskItem = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+
+    .icon-checked::before {
+      content: '○';
+      color: black;
+    }
+
+    &.done .icon-checked::before {
+      content: '✔';
+      color: #09665a;
+    }
+
+    &:hover .icon-checked::before {
+      content: '✔';
+      color: #09665a;
+    }
   }
 
   .task-item-body {
@@ -91,20 +102,10 @@ const StyledTaskItem = styled.div`
       font-size: 30px;
       transition: color 0.2s ease-out;
       font-weight: 300;
+      padding-right: 5px;
       &:after {
         content: '×';
       }
-    }
-  }
-
-  .icon-checked {
-    background-image: url(${CheckCircleIcon});
-    background-position: center;
-    background-repeat: no-repeat;
-
-    &:hover {
-      transition: background-image 0.5s;
-      background-image: url(${CheckHoverIcon});
     }
   }
 `;
@@ -118,7 +119,6 @@ const TaskerItem = ({ id, title, isDone, dueDate }) => {
   const deleteTask = useStore((state) => state.deleteTask);
   const editTask = useStore((state) => state.editTask);
 
-  // Define handleSave first
   const handleSave = useCallback(() => {
     editTask(id, newTitle, newDueDate);
     setIsEditing(false);
@@ -141,11 +141,11 @@ const TaskerItem = ({ id, title, isDone, dueDate }) => {
     <StyledTaskItem
       className={`${isDone ? 'done' : ''} ${isEditing ? 'edit' : ''}`}
     >
-      <div className="task-item-checked">
-        <span
-          className="icon icon-checked"
-          onClick={() => toggleTaskCompletion(id)}
-        />
+      <div
+        className={`task-item-checked ${isDone ? 'done' : ''}`}
+        onClick={() => toggleTaskCompletion(id)}
+      >
+        <span className="icon icon-checked" />
       </div>
       <div className="task-item-body">
         {isEditing ? (

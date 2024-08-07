@@ -19,13 +19,16 @@ const TaskerPage = () => {
       Tasker Manager
       <div style={{ display: 'flex' }}>
         <div style={{ flex: 1 }}>
+          <TaskerFilter />
           <TaskerSearch />
           <TaskerCollection onSelectTask={handleTaskClick} />
           <TaskerInput />
-          <TaskerFilter />
         </div>
         <div
-          style={{ flex: 1, borderLeft: '1px solid #ccc', paddingLeft: '10px' }}
+          style={{
+            flex: 1,
+            paddingLeft: '10px',
+          }}
         >
           {selectedTaskId && <TaskerDetail taskId={selectedTaskId} />}
         </div>
