@@ -1,4 +1,6 @@
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import useStore from '../store/store';
 import {
   CheckActiveIcon,
   CheckCircleIcon,
@@ -74,6 +76,13 @@ const StyledTaskItem = styled.div`
     padding: 8px 12px;
     flex: 1;
     display: flex;
+    flex-direction: column;
+  }
+
+  .task-item-due-date {
+    font-size: 0.9rem;
+    color: var(--gray);
+    margin-top: 4px;
   }
 
   .task-item-action {
@@ -100,18 +109,88 @@ const StyledTaskItem = styled.div`
   }
 `;
 
-const TaskerItem = () => {
+const TaskerItem = ({ id, title, isDone, dueDate }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [newTitle, setNewTitle] = useState(title);
+  const [newDueDate, setNewDueDate] = useState(dueDate);
+
+  const toggleTaskCompletion = useStore((state) => state.toggleTaskCompletion);
+  const deleteTask = useStore((state) => state.deleteTask);
+  const editTask = useStore((state) => state.editTask);
+
+  const handleEditToggle = () => setIsEditing((prev) => !prev);
+  const handleTitleChange = (e) => setNewTitle(e.target.value);
+  const handleDueDateChange = (e) => setNewDueDate(e.target.value);
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSave();
+    }
+  };
+
+  const handleSave = () => {
+    editTask(id, newTitle, newDueDate);
+    setIsEditing(false);
+  };
+
   return (
-    <StyledTaskItem>
+    <StyledTaskItem
+      className={`${isDone ? 'done' : ''} ${isEditing ? 'edit' : ''}`}
+    >
       <div className="task-item-checked">
-        <span className="icon icon-checked" />
+        <span
+          className="icon icon-checked"
+          onClick={() => toggleTaskCompletion(id)}
+        />
       </div>
       <div className="task-item-body">
-        <span className="task-item-body-text">todo</span>
-        <input className="task-item-body-input" />
+        {isEditing ? (
+          <>
+            <input
+              className="task-item-body-input"
+              value={newTitle}
+              onChange={handleTitleChange}
+              placeholder="Edit task"
+              onKeyDown={handleKeyDown}
+            />
+            <input
+              type="date"
+              className="task-item-body-input"
+              value={newDueDate}
+              onChange={handleDueDateChange}
+              onKeyDown={handleKeyDown}
+            />
+          </>
+        ) : (
+          <>
+            <span className="task-item-body-text">{title}</span>
+            <span className="task-item-due-date">
+              {new Date(dueDate).toLocaleDateString()}
+            </span>
+          </>
+        )}
       </div>
-      <div className="task-item-action ">
-        <button className="btn-reset btn-destroy icon"></button>
+      <div className="task-item-action">
+        {isEditing ? (
+          <>
+            <button className="btn-reset" onClick={handleSave}>
+              Save
+            </button>
+            <button className="btn-reset" onClick={handleEditToggle}>
+              Cancel
+            </button>
+          </>
+        ) : (
+          <>
+            <button
+              className="btn-reset btn-destroy"
+              onClick={() => deleteTask(id)}
+            />
+            <button className="btn-reset" onClick={handleEditToggle}>
+              Edit
+            </button>
+          </>
+        )}
       </div>
     </StyledTaskItem>
   );

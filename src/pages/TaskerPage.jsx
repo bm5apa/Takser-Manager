@@ -1,34 +1,22 @@
-import { TaskerCollection, TaskerInput } from 'components';
-
-const dummyTodos = [
-  {
-    title: 'Learn react-router',
-    isDone: true,
-    id: 1,
-  },
-  {
-    title: 'Learn to create custom hooks',
-    isDone: false,
-    id: 2,
-  },
-  {
-    title: 'Learn to use context',
-    isDone: true,
-    id: 3,
-  },
-  {
-    title: 'Learn to implement auth',
-    isDone: false,
-    id: 4,
-  },
-];
+import React from 'react';
+import {
+  TaskerCollection,
+  TaskerInput,
+  TaskerFilter,
+  TaskerSearch,
+} from '../components';
+import useStore from '../store/store';
 
 const TaskerPage = () => {
+  const filteredTasks = useStore((state) => state.getFilteredTasks());
+
   return (
     <div>
       Tasker Manager
+      <TaskerSearch />
+      <TaskerCollection tasks={filteredTasks} />
       <TaskerInput />
-      <TaskerCollection />
+      <TaskerFilter />
     </div>
   );
 };

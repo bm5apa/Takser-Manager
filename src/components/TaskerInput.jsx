@@ -1,4 +1,6 @@
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import useStore from '../store/store';
 
 const StyledAddTodoContainer = styled.div`
   min-height: 52px;
@@ -21,6 +23,7 @@ const StyledLabelIcon = styled.label`
   font-size: 30px;
   transition: color 0.2s ease-out;
   font-weight: 300;
+  cursor: pointer;
 
   &:after {
     content: '+';
@@ -46,37 +49,48 @@ const StyledInputContainer = styled.div`
       font-size: 13px;
     }
   }
-  $.active {
+
+  .active {
     input::placeholder {
       color: var(--gray);
     }
   }
 `;
 
-const StyledAddTodoActionContainer = styled.div`
-  button {
-    font-size: 13px;
-    color: var(--major);
-    padding-right: 5px;
-    display: none;
-  }
-
-  &.active {
-    button {
-      display: block;
-    }
-  }
-`;
 const TodoInput = () => {
+  const addTask = useStore((state) => state.addTask);
+  const [title, setTitle] = useState('');
+  const [dueDate, setDueDate] = useState('');
+
+  const handleAddTask = () => {
+    if (title.trim() && dueDate) {
+      addTask(title, dueDate);
+      setTitle('');
+      setDueDate('');
+    }
+  };
+
   return (
     <StyledAddTodoContainer>
-      <StyledLabelIcon className="icon" htmlFor="add-todo-input" />
+      <StyledLabelIcon
+        className="icon"
+        htmlFor="add-todo-input"
+        onClick={handleAddTask}
+      />
       <StyledInputContainer>
-        <input id="add-todo-input" type="text" placeholder="新增工作" />
+        <input
+          id="add-todo-input"
+          type="text"
+          placeholder="新增工作"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <input
+          type="date"
+          value={dueDate}
+          onChange={(e) => setDueDate(e.target.value)}
+        />
       </StyledInputContainer>
-      <StyledAddTodoActionContainer>
-        <button className="btn-reset">新增</button>
-      </StyledAddTodoActionContainer>
     </StyledAddTodoContainer>
   );
 };
