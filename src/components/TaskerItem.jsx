@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import useStore from '../store/store';
 import {
@@ -118,20 +118,24 @@ const TaskerItem = ({ id, title, isDone, dueDate }) => {
   const deleteTask = useStore((state) => state.deleteTask);
   const editTask = useStore((state) => state.editTask);
 
+  // Define handleSave first
+  const handleSave = useCallback(() => {
+    editTask(id, newTitle, newDueDate);
+    setIsEditing(false);
+  }, [editTask, id, newTitle, newDueDate]);
+
   const handleEditToggle = () => setIsEditing((prev) => !prev);
   const handleTitleChange = (e) => setNewTitle(e.target.value);
   const handleDueDateChange = (e) => setNewDueDate(e.target.value);
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      handleSave();
-    }
-  };
-
-  const handleSave = () => {
-    editTask(id, newTitle, newDueDate);
-    setIsEditing(false);
-  };
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.key === 'Enter') {
+        handleSave();
+      }
+    },
+    [handleSave],
+  );
 
   return (
     <StyledTaskItem

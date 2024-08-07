@@ -1,30 +1,43 @@
 import create from 'zustand';
 
-const useStore = create((set) => ({
+const useStore = create((set, get) => ({
   tasks: [
     {
-      title: 'Learn react-router',
+      title: 'Learn about Basic Knowledge of React.js',
       isDone: true,
       id: 1,
       dueDate: '2024-08-08',
+      comments: [
+        { id: 1, text: 'Great progress!', date: '2024-08-01' },
+        {
+          id: 2,
+          text: 'Remember to check official document.',
+          date: '2024-08-03',
+        },
+      ],
     },
     {
-      title: 'Learn to create custom hooks',
+      title: 'Learn about React Hooks',
       isDone: false,
       id: 2,
       dueDate: '2024-08-07',
+      comments: [
+        { id: 3, text: 'Consider using useReducer.', date: '2024-08-02' },
+      ],
     },
     {
-      title: 'Learn to use context',
+      title: 'Learn about Zustand',
       isDone: true,
       id: 3,
       dueDate: '2024-08-30',
+      comments: [],
     },
     {
-      title: 'Learn to implement auth',
+      title: 'Learn about use',
       isDone: false,
       id: 4,
       dueDate: '2025-01-25',
+      comments: [],
     },
   ],
   filter: 'all',
@@ -33,7 +46,7 @@ const useStore = create((set) => ({
     set((state) => ({
       tasks: [
         ...state.tasks,
-        { title, isDone: false, id: Date.now(), dueDate },
+        { title, isDone: false, id: Date.now(), dueDate, comments: [] },
       ],
     })),
   toggleTaskCompletion: (id) =>
@@ -57,8 +70,7 @@ const useStore = create((set) => ({
   setFilter: (filter) => set({ filter }),
   setSearchQuery: (query) => set({ searchQuery: query }),
   getFilteredTasks: () => {
-    const state = useStore.getState();
-    const { tasks, filter, searchQuery } = state;
+    const { tasks, filter, searchQuery } = get();
 
     const today = new Date();
     const startOfWeek = new Date(today);
@@ -93,6 +105,52 @@ const useStore = create((set) => ({
       }
     });
   },
+  addComment: (taskId, text) =>
+    set((state) => ({
+      tasks: state.tasks.map((task) =>
+        task.id === taskId
+          ? {
+              ...task,
+              comments: [
+                ...task.comments,
+                {
+                  id: Date.now(),
+                  text,
+                  date: new Date().toISOString().slice(0, 10),
+                },
+              ],
+            }
+          : task,
+      ),
+    })),
+  editComment: (taskId, commentId, newText) =>
+    set((state) => ({
+      tasks: state.tasks.map((task) =>
+        task.id === taskId
+          ? {
+              ...task,
+              comments: task.comments.map((comment) =>
+                comment.id === commentId
+                  ? { ...comment, text: newText }
+                  : comment,
+              ),
+            }
+          : task,
+      ),
+    })),
+  deleteComment: (taskId, commentId) =>
+    set((state) => ({
+      tasks: state.tasks.map((task) =>
+        task.id === taskId
+          ? {
+              ...task,
+              comments: task.comments.filter(
+                (comment) => comment.id !== commentId,
+              ),
+            }
+          : task,
+      ),
+    })),
 }));
 
 export default useStore;

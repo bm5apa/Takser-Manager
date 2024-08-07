@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import useStore from '../store/store';
 
@@ -11,9 +11,13 @@ const StyledAddTaskerFilterContainer = styled.div`
 
 const TaskerFilter = () => {
   const setFilter = useStore((state) => state.setFilter);
-  const handleFilterChange = (e) => {
-    setFilter(e.target.value);
-  };
+
+  const handleFilterChange = useCallback(
+    (e) => {
+      setFilter(e.target.value);
+    },
+    [setFilter],
+  );
 
   return (
     <StyledAddTaskerFilterContainer>

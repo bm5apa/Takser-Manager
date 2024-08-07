@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import useStore from '../store/store';
 
@@ -62,13 +62,21 @@ const TodoInput = () => {
   const [title, setTitle] = useState('');
   const [dueDate, setDueDate] = useState('');
 
-  const handleAddTask = () => {
+  const handleAddTask = useCallback(() => {
     if (title.trim() && dueDate) {
       addTask(title, dueDate);
       setTitle('');
       setDueDate('');
     }
-  };
+  }, [addTask, title, dueDate]);
+
+  const handleTitleChange = useCallback((e) => {
+    setTitle(e.target.value);
+  }, []);
+
+  const handleDueDateChange = useCallback((e) => {
+    setDueDate(e.target.value);
+  }, []);
 
   return (
     <StyledAddTodoContainer>
@@ -83,13 +91,9 @@ const TodoInput = () => {
           type="text"
           placeholder="新增工作"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={handleTitleChange}
         />
-        <input
-          type="date"
-          value={dueDate}
-          onChange={(e) => setDueDate(e.target.value)}
-        />
+        <input type="date" value={dueDate} onChange={handleDueDateChange} />
       </StyledInputContainer>
     </StyledAddTodoContainer>
   );

@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import useStore from '../store/store';
 
 const TaskerSearch = () => {
   const setSearchQuery = useStore((state) => state.setSearchQuery);
 
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
+  const handleSearchChange = useCallback(
+    (e) => {
+      setSearchQuery(e.target.value);
+    },
+    [setSearchQuery],
+  );
 
   return (
     <div>
