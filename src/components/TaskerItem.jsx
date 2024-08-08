@@ -51,7 +51,7 @@ const StyledTaskItem = styled.div`
 
   &.edit {
     .task-item-body-input {
-      display: block;
+      display: flex;
     }
     .task-item-body-text {
       display: none;

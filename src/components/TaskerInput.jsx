@@ -38,6 +38,7 @@ const StyledInputContainer = styled.div`
   user-select: none;
 
   input {
+    color: var(--major);
     display: flex;
     flex: 1;
     padding: 8px 12px;
@@ -47,13 +48,7 @@ const StyledInputContainer = styled.div`
 
     &::placeholder {
       color: var(--major);
-      font-size: 13px;
-    }
-  }
-
-  .active {
-    input::placeholder {
-      color: var(--gray);
+      font-size: 15px;
     }
   }
 `;

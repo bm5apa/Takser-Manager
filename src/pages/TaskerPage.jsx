@@ -16,7 +16,15 @@ const TaskerPage = () => {
 
   return (
     <div>
-      Tasker Manager
+      <div
+        style={{
+          fontSize: '40px',
+          color: '#09665a',
+          textDecoration: 'underline',
+        }}
+      >
+        Tasker Manager
+      </div>
       <div style={{ display: 'flex' }}>
         <div style={{ flex: 1 }}>
           <TaskerFilter />

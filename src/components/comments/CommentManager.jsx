@@ -36,7 +36,18 @@ const CommentManager = ({ taskId }) => {
           onClose={handleClose}
         />
       )}
-      {!isEditing && <button onClick={handleAddClick}>Add Comment</button>}
+      {!isEditing && (
+        <button
+          className="btn-reset"
+          onClick={handleAddClick}
+          style={{
+            fontSize: '18px',
+            textDecoration: 'underline 2px',
+          }}
+        >
+          Add Comment
+        </button>
+      )}
     </div>
   );
 };

@@ -17,6 +17,10 @@ const CommentInput = React.memo(
     };
 
     const handleSubmit = () => {
+      if (!content.trim()) {
+        onClose();
+        return;
+      }
       if (editCommentId) {
         editComment(taskId, editCommentId, content);
       } else {
@@ -26,10 +30,47 @@ const CommentInput = React.memo(
     };
 
     return (
-      <div>
-        <textarea value={content} onChange={handleChange} />
-        <button onClick={handleSubmit}>Submit</button>
-        <button onClick={onClose}>Cancel</button>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <textarea
+          value={content}
+          onChange={handleChange}
+          style={{
+            width: '80%',
+            height: '100px',
+            marginLeft: '70px',
+          }}
+        />
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-evenly',
+            paddingTop: '10px',
+          }}
+        >
+          <button
+            className="btn-reset"
+            onClick={handleSubmit}
+            style={{
+              textDecoration: 'underline 2px',
+            }}
+          >
+            Submit
+          </button>
+          <button
+            className="btn-reset"
+            onClick={onClose}
+            style={{
+              textDecoration: 'underline 2px',
+            }}
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     );
   },

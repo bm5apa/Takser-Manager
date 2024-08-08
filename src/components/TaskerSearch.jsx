@@ -14,7 +14,7 @@ const TaskerSearch = () => {
   return (
     <div>
       <label>
-        Search Tasks:
+        Search:
         <input
           type="text"
           placeholder="Search..."
